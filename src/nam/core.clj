@@ -6,9 +6,7 @@
   [s]
   {:word       s
    :end        false
-   :is-changed false
-   }
-  )
+   :is-changed false})
 
 (defn- substitute
   "Substitutes the first instance of a with b in nam word s."
@@ -16,10 +14,7 @@
   (let [{:keys [word is-changed _] :as all} s]
     (case is-changed
       false (assoc all :word (str/replace-first word a b))
-      true all
-      )
-    )
-  )
+      true all)))
 
 (defn -->
   "Substitutes the first instance of a with b in nam word s."
@@ -29,13 +24,8 @@
       false (let [new-s (substitute s a b)]
               (case (= s new-s)
                 false (assoc new-s :is-changed true)
-                true s
-                )
-              )
-      true s
-      )
-    )
-  )
+                true s))
+      true s)))
 
 (defn ==>
   "Substitutes the first instance of a with b in nam word s and finish nam."
@@ -43,16 +33,12 @@
   (let [new-s (--> s a b)]
     (case (not= s new-s)
       true (assoc new-s :end true)
-      false s
-      )
-    )
-  )
+      false s)))
 
 (defn create-nam-program
   "Creates nam program."
   [& rules]
-  rules
-  )
+  rules)
 
 (defn- nam-do-one-substitution
   "Does one nam substitution"
@@ -61,10 +47,7 @@
         next-rules (next rules)]
     (case (nil? next-rules)
       false (recur (f s a b) next-rules)
-      true (f s a b)
-      )
-    )
-  )
+      true (f s a b))))
 
 (defn nam-start
   "Starts the nam of nam word s using rules."
@@ -74,7 +57,4 @@
       false (recur (assoc new-s :is-changed false) rules)
       true (-> new-s
                (assoc :end false)
-               (assoc :is-changed false))
-      )
-    )
-  )
+               (assoc :is-changed false)))))
