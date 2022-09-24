@@ -1,6 +1,7 @@
 (ns nam.core
   (:require [nam.nam-core :as core]
-            [nam.word :as word]))
+            [nam.word :as word]
+            [nam.substitution :refer [--> ==>]]))
 
 (defn nam
   "Starts the nam of nam word s using rules.
