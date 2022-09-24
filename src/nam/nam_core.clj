@@ -1,7 +1,7 @@
 (ns nam.nam-core)
 
 (defn create-nam-program
-  "Creates nam program."
+  "Creates nam program from provided rules."
   [& rules]
   rules)
 
