@@ -10,22 +10,18 @@
 
 (defn- substitute
   "Substitutes the first instance of a with b in nam word s."
-  [s a b]
-  (let [{:keys [word is-changed _] :as all} s]
-    (case is-changed
-      false (assoc all :word (str/replace-first word a b))
-      true all)))
+  [{:keys [word _ _] :as all} a b]
+  (assoc all :word (str/replace-first word a b)))
 
 (defn -->
   "Substitutes the first instance of a with b in nam word s."
-  [s a b]
-  (let [{:keys [_ is-changed _] :as s} s]
-    (case is-changed
-      false (let [new-s (substitute s a b)]
-              (case (= s new-s)
-                false (assoc new-s :is-changed true)
-                true s))
-      true s)))
+  [{:keys [_ is-changed _] :as s} a b]
+  (case is-changed
+    false (let [new-s (substitute s a b)]
+            (case (= s new-s)
+              false (assoc new-s :is-changed true)
+              true s))
+    true s))
 
 (defn ==>
   "Substitutes the first instance of a with b in nam word s and finish nam."
@@ -58,3 +54,20 @@
       true (-> new-s
                (assoc :end false)
                (assoc :is-changed false)))))
+
+(defn nam
+  "Starts the nam of nam word s using rules. Allows to write rules in almost true nam way."
+  [s & rules]
+  (nam-start
+    (create-nam-word (str s))
+    (map
+      #(let [[a rule b] %] [rule (str a) (str b)])
+      (partition 3 rules))))
+
+(defmacro nam-macro
+  "Starts the nam of nam word s using rules. Allows to write rules in almost true nam way and avoid parentheses"
+  [s & rules]
+  (nam-start (create-nam-word (str `~s))
+             (map
+               #(let [[a rule b] %] [(resolve rule) (str `~a) (str `~b)])
+               (partition 3 rules))))
