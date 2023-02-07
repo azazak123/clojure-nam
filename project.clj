@@ -8,5 +8,4 @@
   :test-paths ["test"]
 
   :repl-options {:init-ns nam.core}
-  :profiles {:dev {:plugins [[lein-cljfmt "0.9.0"]]}}
-  )
+  :profiles {:dev {:plugins [[lein-cljfmt "0.9.0"]]}})
